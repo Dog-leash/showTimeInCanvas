@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<!-- 这只是一个玩的七巧板 -->
+<head>
+    <title>tangram</title>
+</head>
+
+<body>
+    <canvas id="canvas" height="800" width="800" style="border:1px solid #aaa; display: block;margin: 100px auto">
+    </canvas>
+    <script type="text/javascript">
+        //预先用数组保存绘制七巧板的点及相应颜色
+        var tangram = [
+            {p:[{x:0, y:0}, {x:800, y:0}, {x:400, y:400}], color:"#caff67"},
+            {p:[{x:0, y:0}, {x:400, y:400}, {x:0, y:800}], color:"#67becf"},
+            {p:[{x:800, y:0}, {x:800, y:400}, {x:600, y:600}, {x:600, y:200}], color:"#ef3d61"},
+            {p:[{x:600, y:200}, {x:600, y:600}, {x:400, y:400}], color:"#f9f51a"},
+            {p:[{x:400, y:400}, {x:600, y:600}, {x:400, y:800}, {x:200, y:600}], color:"#a594c0"},
+            {p:[{x:200, y:600}, {x:400, y:800}, {x:0, y:800}], color:"#fa8ecc"},
+            {p:[{x:800, y:400}, {x:800, y:800}, {x:400, y:800}], color:"#f6ca29"}
+        ];
+
+    window.onload = function() {
+        //初始化
+        var canvas = document.getElementById('canvas');
+
+        /*JS中同样可以设置画布的宽和高
+        canvas.width = 800;
+        canvas.height = 800;*/
+        if (canvas.getContext("2d")) {
+            //使用context绘制
+            var context = canvas.getContext("2d"); //得到绘图的上下文环境，需要绘制所需要的一个接口；2d绘图
+
+
+            for( var i = 0;i < tangram.length; i++){
+                draw(tangram[i], context);
+            }
+
+
+            function draw(demo, txt){
+                txt.beginPath();
+                txt.moveTo(demo.p[0].x, demo.p[0].y);
+                for(var i = 1; i< demo.p.length;i++){
+                    txt.lineTo(demo.p[i].x, demo.p[i].y);
+                }
+                txt.closePath();
+                txt.fillStyle = demo.color;
+                txt.fill();
+                
+            }
+            
+
+
+        } else {
+            alert("当前浏览器不支持canvas，请更换浏览器再试");
+        }
+    }
+    </script>
+</body>
+
+</html>
