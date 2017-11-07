@@ -18,10 +18,8 @@ window.onload = function() {
 
     canvas.width = WINDOW_WIDTH;
     canvas.height = WINDOW_HEIGHT;
-    console.log(colors[3]);
     setInterval(
         function() {
-            console.log(colors[3]);
             render(context);
             getCurTime();
         },
@@ -98,6 +96,18 @@ function updateBalls(){
             balls[i].vy = -balls[i].vy*0.75;
         }
     }
+
+    //对超出画布的小球进行处理，提高性能
+     var count = 0;
+    for(var i = 0;i < balls.length;i++){
+        if(balls[i].x +RADIUS >0 && balls[i].x-RADIUS<WINDOW_WIDTH){
+            balls[count++] = balls[i];
+        }
+    }
+
+    while( balls.length > Math.min(300,count)){
+        balls.pop();
+    } 
 }
 
 function addBalls(x,y,num){
@@ -108,11 +118,10 @@ function addBalls(x,y,num){
                     x:x+j*2*(RADIUS+1)+(RADIUS+1),
                     y:y+i*2*(RADIUS+1)+(RADIUS+1),
                     g:1.5+Math.random(),
-                    vx:Math.pow(-1,Math.ceil(Math.random()*1000))*8,
+                    vx:Math.pow(-1,Math.ceil(Math.random()*1000))*4,
                     vy:-5+Math.random(),
                     color:colors[Math.floor(Math.random()*colors.length)]
                 }
-                console.log(aBall);
                 balls.push(aBall);
             }
 }
